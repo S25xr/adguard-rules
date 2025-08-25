@@ -2,8 +2,8 @@ name: Update AdGuard Rules (China Only)
 
 on:
   schedule:
-    - cron: "0 2 * * 1"       # 每周一凌晨 2 点
-  workflow_dispatch:           # 支持手动触发
+    - cron: "0 2 * * 1"  # 每周一凌晨 2 点
+  workflow_dispatch:      # 支持手动触发
 
 jobs:
   build:
@@ -23,9 +23,9 @@ jobs:
 
       - name: Fetch and merge China rules
         run: |
+          python - <<EOF
           import requests
 
-          # 中国相关规则 URL
           urls = [
               "https://adaway.org/hosts.txt",
               "https://anti-ad.net/easylist.txt",
@@ -66,6 +66,7 @@ jobs:
 
           with open("adguard-rules.txt", "w", encoding="utf-8") as f:
               f.write("\n".join(rules))
+          EOF
 
       - name: Commit and push
         run: |
